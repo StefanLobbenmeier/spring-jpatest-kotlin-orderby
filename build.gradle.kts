@@ -21,6 +21,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+    runtimeOnly("org.postgresql:postgresql")
+
     val mockkVersion = "1.13.2"
     val assertKVersion = "0.25"
     val testcontainerVersion = "1.17.6"

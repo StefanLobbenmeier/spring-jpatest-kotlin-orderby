@@ -1,0 +1,24 @@
+# DB
+spring:
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          time_zone: UTC
+        generate_statistics: false
+        format_sql: true
+    open-in-view: false
+    generate-ddl: true
+    show-sql: false
+
+  # DB Connection Pool
+  datasource:
+    hikari:
+      connectionTimeout: '20000'
+      maximumPoolSize: '5'
+  jackson:
+    deserialization:
+      READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE: true
