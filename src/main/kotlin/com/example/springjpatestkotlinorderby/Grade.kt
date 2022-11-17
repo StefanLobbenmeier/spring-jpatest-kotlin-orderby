@@ -19,11 +19,11 @@ import org.hibernate.annotations.UpdateTimestamp
 @Entity
 @Table(name = "GRADE")
 class Grade(
-    @Id @GeneratedValue @Type(type = "pg-uuid") var id: UUID?,
+    @Id @GeneratedValue @Type(type = "pg-uuid") var id: UUID? = null,
     var date: LocalDate,
     var value: BigDecimal,
-    @CreationTimestamp @Column(updatable = false) val creationDate: ZonedDateTime?,
-    @UpdateTimestamp val modificationDate: ZonedDateTime?,
+    @CreationTimestamp @Column(updatable = false) val creationDate: ZonedDateTime? = null,
+    @UpdateTimestamp val modificationDate: ZonedDateTime? = null,
 ) {
     @ManyToOne
     @JoinColumn(name = "student_id")

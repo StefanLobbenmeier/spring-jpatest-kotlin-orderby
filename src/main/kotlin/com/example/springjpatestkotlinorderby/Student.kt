@@ -18,13 +18,13 @@ import org.hibernate.annotations.UpdateTimestamp
 @Entity
 @Table(name = "STUDENT")
 class Student(
-    @Id @GeneratedValue @Type(type = "pg-uuid") var id: UUID?,
+    @Id @GeneratedValue @Type(type = "pg-uuid") var id: UUID? = null,
     var name: String,
     @OneToMany(
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
         mappedBy = "student"
     ) @OrderBy(clause = "date DESC") var grades: MutableList<Grade> = mutableListOf(),
-    @CreationTimestamp @Column(updatable = false) val creationDate: ZonedDateTime?,
-    @UpdateTimestamp val modificationDate: ZonedDateTime?,
+    @CreationTimestamp @Column(updatable = false) val creationDate: ZonedDateTime? = null,
+    @UpdateTimestamp val modificationDate: ZonedDateTime? = null,
 )
