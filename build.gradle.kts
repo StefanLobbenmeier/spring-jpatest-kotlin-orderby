@@ -20,7 +20,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    val mockkVersion = "1.13.2"
+    val assertKVersion = "0.25"
+    val testcontainerVersion = "1.17.6"
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:testcontainers:$testcontainerVersion")
+    testImplementation("org.testcontainers:postgresql:$testcontainerVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertKVersion")
 }
 
 tasks.withType<KotlinCompile> {
