@@ -9,12 +9,16 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionTemplate
 
 @SpringBootTest
 class SpringJpatestKotlinOrderbyApplicationTests {
 
     @Autowired
     lateinit var studentRepository: StudentRepository
+
+    @Autowired
+    lateinit var transactionTemplate: TransactionTemplate
 
     @Test
     fun contextLoads() {
@@ -56,6 +60,31 @@ class SpringJpatestKotlinOrderbyApplicationTests {
             assertThat(retrievedStudent.grades[0].date.year).isEqualTo(2022)
             assertThat(retrievedStudent.grades[1].date.year).isEqualTo(2021)
             assertThat(retrievedStudent.grades[2].date.year).isEqualTo(2020)
+        }
+    }
+
+    @Test
+    fun gradesAreRetrievedInOrderUsingTransactionTemplate() {
+        val savedStudent = transactionTemplate.execute {
+
+            val student = studentRepository.save(Student(name = "John"))
+
+            val gradeValue = BigDecimal.valueOf(50)
+            student.grades.add(Grade(date = LocalDate.of(2021, 1, 1), value = gradeValue))
+            student.grades.add(Grade(date = LocalDate.of(2022, 1, 1), value = gradeValue))
+            student.grades.add(Grade(date = LocalDate.of(2020, 1, 1), value = gradeValue))
+
+            studentRepository.save(student)
+        }
+
+        transactionTemplate.execute {
+            val retrievedStudent = studentRepository.getReferenceById(savedStudent?.id!!)
+
+            assertAll {
+                assertThat(retrievedStudent.grades[0].date.year).isEqualTo(2022)
+                assertThat(retrievedStudent.grades[1].date.year).isEqualTo(2021)
+                assertThat(retrievedStudent.grades[2].date.year).isEqualTo(2020)
+            }
         }
     }
 
